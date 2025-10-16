@@ -1,21 +1,27 @@
+//  UI
+const display = document.querySelector("div")
+
+const btns = document.querySelectorAll("button")
+
+btns.forEach(btn => {
+    btn.addEventListener("click", e => {
+        const choices = ["rock", "paper", "scissors"]
+        const humanChoice = e.target.textContent.toLowerCase()
+        const computerChoice = choices[Math.floor(Math.random() * choices.length)]
+        playRound(humanChoice, computerChoice)
+    })
+})
+
+// LOGIC
 let humanScore = 0
 let computerScore = 0
 
-const getComputerChoice = () => {
-    const choices = ["rock", "paper", "scissors"]
-    return choices[Math.floor(Math.random() * choices.length)]
-}
-
-const getHumanChoice = () => {
-    let choice = prompt("Please choose either: rock, paper, or scissors")
-    return choice.toLowerCase()
-}
-
 const playRound = (humanChoice, computerChoice) => {
-    console.log(`Player chose: ${humanChoice}, Computer chose: ${computerChoice}`)
+    display.textContent = ""
+    display.append(`Player chose: ${humanChoice} and Computer chose: ${computerChoice}.`)
 
     if (humanChoice === computerChoice) {
-        console.log("It's a tie!")
+        display.append(` It's a tie! Player score is ${humanScore} and computer score is ${computerScore}`)
         return
     }
 
@@ -24,26 +30,28 @@ const playRound = (humanChoice, computerChoice) => {
         (humanChoice === "scissors" && computerChoice === "paper") ||
         (humanChoice === "paper" && computerChoice === "rock")
     ) {
-        console.log("Player wins this round!")
         humanScore++
+        display.append(` Player wins this round! Player score is ${humanScore} and computer score is ${computerScore}`)
         return
     }
-
-    console.log("Computer wins this round!")
     computerScore++
-}
+    display.append(` Computer wins this round! Player score is ${humanScore} and computer score is ${computerScore}`)
 
-for (let i = 0; i < 5; i++) {
-    const humanChoice = getHumanChoice()
-    const computerChoice = getComputerChoice()
-    playRound(humanChoice, computerChoice)
-    console.log(`Score after round ${i + 1} -> Player: ${humanScore}, Computer: ${computerScore}`)
-}
+    if (humanScore === 5) {
+        display.append(" Player wins the game!")
+        humanScore = 0
+        computerScore = 0
 
-if (humanScore > computerScore) {
-    console.log("Player wins the game!")
-} else if (computerScore > humanScore) {
-    console.log("Computer wins the game!")
-} else {
-    console.log("The game is a tie!")
+    } else if (computerScore === 5) {
+        display.append(" Computer wins the game!")
+        humanScore = 0
+        computerScore = 0
+    }
 }
+    
+
+
+
+
+
+
